@@ -41,11 +41,11 @@ const roomSchema = new mongoose.Schema({
         required: [true, 'Please add a capacity'],
         min: [1, 'Capacity can not be less then 1'],
     },
-    availableServices: {
+    availableServices: [{
         type: mongoose.Schema.ObjectId,
         ref: 'Service',
         required: true
-    },
+    }],
     notes: {
         type: String,
         trim: true,
