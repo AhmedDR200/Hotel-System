@@ -12,5 +12,5 @@ const availableServiceSchema = new mongoose.Schema({
     versionKey: false
 });
 
-const AvailableService = mongoose.model('AvailableService', availableServiceSchema);
-module.exports = AvailableService;
+const Service = mongoose.model('Service', availableServiceSchema);
+module.exports = Service;
