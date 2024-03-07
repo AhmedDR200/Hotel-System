@@ -8,17 +8,26 @@ dotenv.config();
 const ApiError = require('./utils/apiError');
 const globalError = require('./middlewares/errorMiddleware');
 
+// Routes
+const userRoute = require('./routes/userRoute');
+
 // DB Connection
 require('./config/db')();
 
 // Express App
 const app = express();
 
+// Body Parser
+app.use(express.json());
+
 
 // Morgan Middleware => Logging
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+// Mounting Routes
+app.use('/api/users', userRoute);
 
 
 // 404 Error Handling Middleware
