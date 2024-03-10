@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Room = require('../models/roomSchema');
+const User = require('../models/userSchema');
 const ApiError = require('../utils/apiError');
 
 
@@ -139,4 +140,60 @@ exports.getRoomsAdvanced = asyncHandler(async (req, res, next) => {
         pagination,
         data: rooms
     });
+});
+
+
+/**
+ * @desc    Add rooms to user wishlist
+ * @route   POST /api/rooms/:id/wishlist
+ * @access  Private / User
+*/
+exports.addRoomToWishlist = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        return next(new ApiError(`User not found with id of ${req.user.id}`, 404));
+    }
+
+    if (user.wishlist.includes(req.params.id)) {
+        return next(new ApiError(`Room already in wishlist`, 400));
+    }
+
+    user.wishlist.push(req.params.id);
+
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        data: user
+    });
+
+});
+
+
+/**
+ * @desc    Remove rooms from user wishlist
+ * @route   DELETE /api/rooms/:id/wishlist
+ * @access  Private / User
+*/
+exports.removeRoomFromWishlist = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+        return next(new ApiError(`User not found with id of ${req.user.id}`, 404));
+    }
+
+    if (!user.wishlist.includes(req.params.id)) {
+        return next(new ApiError(`Room not in wishlist`, 400));
+    }
+
+    user.wishlist = user.wishlist.filter(room => room.toString() !== req.params.id);
+
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        data: user
+    });
+
 });

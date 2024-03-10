@@ -12,5 +12,9 @@ router.route('/:id')
 .patch(roomController.updateRoom)
 .delete(roomController.deleteRoom);
 
+router.route('/:id/wishlist')
+.post(roomController.addRoomToWishlist)
+.delete(roomController.removeRoomFromWishlist);
+
 
 module.exports = router;

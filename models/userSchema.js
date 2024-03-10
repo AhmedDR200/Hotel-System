@@ -28,7 +28,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    wishlist: String,
+    wishlist: {
+        type: [mongoose.Schema.ObjectId],
+        ref: 'Room',
+    },
     profileImg: String,
 },
     {
