@@ -12,6 +12,7 @@ const globalError = require('./middlewares/errorMiddleware');
 const userRoute = require('./routes/userRoute');
 const serviceRoute = require('./routes/serviceRoute');
 const roomRoute = require('./routes/roomRoute');
+const authRoute = require('./routes/authRoute');
 
 // DB Connection
 require('./config/db')();
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/users', userRoute);
 app.use('/api/services', serviceRoute);
 app.use('/api/rooms', roomRoute);
+app.use('/api/auth', authRoute);
 
 
 // 404 Error Handling Middleware
